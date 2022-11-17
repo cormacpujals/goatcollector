@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Goats List</h1>
+
+{% for goat in goats %}
+  <div class="card">
+    <div class="card-content">
+      <span class="card-title">{{ goat.name }}</span>
+      <p>Breed: {{ goat.breed }}</p>
+      <p>Description: {{ goat.description }}</p>
+      {% if goat.age > 0 %}
+        <p>Age: {{ goat.age }}</p>
+      {% else %}
+        <p>Age: Kid</p>
+      {% endif %}
+    </div>
+  </div>
+{% endfor %}
+
+{% endblock %}
