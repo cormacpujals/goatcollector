@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<h1>Cat Details</h1>
+<h1>Goat Details</h1>
 
 <div class="row">
   <div class="col s6">
@@ -43,6 +43,58 @@
     </table>
   </div>
 </div>
+
+<!-- This is all new markup to be added just above the <script> tag -->
+  <hr>
+  <div class="row">
+    <div class="col s6">
+      <h3>{{ goat.name }}'s Toys</h3>
+      {% if goat.toys.count %}
+        {% for toy in goat.toys.all %}
+          <div class="card">
+            <div class="card-content">
+              <span class="card-title">
+                A <span style="color: {{ toy.color }}">{{ toy.color }}</span> {{ toy.name }}
+              </span>
+            </div>
+            <div class="card-action">
+              <form action="{% url 'unassoc_toy' goat.id toy.id %}" method="DELETE">
+                {% csrf_token %}
+                <button type="submit" class="btn">Remove</button>
+              </form>
+            </div>
+          </div>
+        {% endfor %}
+      {% else %}
+        <h5>No Toys</h5>
+      {% endif %}
+    </div>
+    <!-- Available toys will come after this line -->
+    <div class="col s6">
+      <h3>Available Toys</h3>
+      {% if toys.count %}
+        {% for toy in toys.all %}
+          <div class="card">
+            <div class="card-content">
+              <span class="card-title">
+                A <span style="color: {{ toy.color }}">{{ toy.color }}</span> {{ toy.name }}
+              </span>
+            </div>
+            <div class="card-action">
+              <form action="{% url 'assoc_toy' goat.id toy.id %}" method="POST">
+                {% csrf_token %}
+                <button type="submit" class="btn">Add</button>
+              </form>
+            </div>
+          </div>
+        {% endfor %}
+      {% else %}
+        <h5>{{goat.name}} Already Has All Toys Available</h5>
+      {% endif %}
+    </div>
+  </div>
+
+
 <script>
   const dateEl = document.getElementById('id_date');
   // M is Materialize's global variable
